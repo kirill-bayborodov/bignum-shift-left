@@ -186,7 +186,7 @@ static void test_all_ones_and_truncate(void) {
     // len = capacity, все слова = ~0
     bignum_t x;
     x.len = BIGNUM_CAPACITY;
-    for (int i = 0; i < x.len; ++i) {
+    for (size_t i = 0; i < x.len; ++i) {
         x.words[i] = UINT64_MAX;
     }
     int rc = bignum_shift_left(&x, 1);
