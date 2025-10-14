@@ -39,7 +39,7 @@
 #define BIGNUM_BITS (BIGNUM_CAPACITY * 64)
 
 #ifndef ITER_PER_THREAD
-#  define ITER_PER_THREAD (20000000u * 2)
+#  define ITER_PER_THREAD (20000000u * 20)
 #endif
 
 #ifndef THREAD_COUNT
