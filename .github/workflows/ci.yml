@@ -75,7 +75,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload dist archive as release asset
-      uses: actions/upload-release-asset@v2
+      uses: actions/upload-release-asset@v1.0.2
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ steps.dist.outputs.archive }}
