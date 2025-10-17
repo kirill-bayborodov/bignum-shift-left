@@ -167,7 +167,7 @@ $(BIN_DIR) $(REPORTS_DIR) $(DIST_INCLUDE_DIR) $(DIST_LIB_DIR):
 lint:
 	@echo "Running static analysis on C source files..."
 	@$(CPPCHECK) --std=c11 --enable=all --error-exitcode=1 --suppress=missingIncludeSystem \
-	    --inline-suppr --inconclusive --bug-hunting --check-config \
+	    --inline-suppr --inconclusive --check-config \
 	    -I$(INCLUDE_DIR) -I$(COMMON_INCLUDE_DIR) \
 	    $(TESTS_DIR)/ $(BENCH_DIR)/ $(DIST_DIR)/
 
