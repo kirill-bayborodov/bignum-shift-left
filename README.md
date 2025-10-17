@@ -15,7 +15,7 @@ Also available as a standalone distribution.
 
 -   **High Performance:** Hand-crafted x86-64 yasm assembly — an ultra-optimized, multithreading-ready engine delivering peak execution speed..
 -   **Dependency-Free Core:** The core logic has no external runtime dependencies.
--   **Tests and Benchmarks:* Provides a comprehensive test suite and performance microbenchmarks.
+-   **Tests and Benchmarks:** Provides a comprehensive test suite and performance microbenchmarks.
 -   **Automated Builds:** A comprehensive `Makefile` for easy compilation, testing, and benchmarking.
 -   **Continuous Integration:** All changes are automatically built and tested via GitHub Actions.
 -   **Static Analysis:** Code quality is enforced using `cppcheck` for all C-based test files.
