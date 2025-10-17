@@ -15,6 +15,7 @@ MKDIR = mkdir -p
 AR = ar
 STRIP = strip
 RL = ranlib
+CPPCHECK = cppcheck
 
 # --- Directories ---
 SRC_DIR = src
@@ -67,7 +68,7 @@ REPORT_FILE_MT = $(REPORTS_DIR)/$(REPORT_NAME)_mt.txt
 RECORD_OPT = -F 1000 -e cycles,cache-misses,branch-misses -g --call-graph fp
 REPORT_OPT = --percent-limit 1.0 --sort comm,dso,symbol --symbol-filter=$(PERF_SYMBOL_FILTER)
 
-.PHONY: all build test bench install dist clean help
+.PHONY: all build lint test bench install dist clean help
 
 all: build
 build: $(OBJ)
@@ -162,6 +163,13 @@ $(BIN_DIR)/bench_%: $(BENCH_DIR)/bench_%.c | $(BIN_DIR)
 # --- Utility Targets ---
 $(BIN_DIR) $(REPORTS_DIR) $(DIST_INCLUDE_DIR) $(DIST_LIB_DIR):
 	@$(MKDIR) $@
+
+lint:
+	@echo "Running static analysis on C source files..."
+	@$(CPPCHECK) --std=c11 --enable=all --error-exitcode=1 --suppress=missingIncludeSystem \
+	    --inline-suppr --inconclusive --bug-hunting --check-config \
+	    -I$(INCLUDE_DIR) -I$(COMMON_INCLUDE_DIR) \
+	    $(TESTS_DIR)/ $(BENCH_DIR)/ $(DIST_DIR)/
 
 clean:
 	@echo "Cleaning up build artifacts (build/, bin/, dist/)..."
