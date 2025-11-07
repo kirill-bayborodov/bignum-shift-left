@@ -58,3 +58,7 @@ dkms.conf
 bin/
 build/
 context/
+
+# Performance reports
+benchmarks/reports
+doc/report_bench_*.txt
