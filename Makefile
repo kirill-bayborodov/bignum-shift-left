@@ -16,6 +16,8 @@ AR = ar
 STRIP = strip
 RL = ranlib
 CPPCHECK = cppcheck
+OBJCOPY = objcopy
+NM = nm
 
 # --- Directories ---
 SRC_DIR = src
@@ -101,11 +103,16 @@ dist: clean
 # 1. Собираем объектный файл в release-конфигурации
 	@$(MAKE) build CONFIG=release
 # 2. Удаляем всю лишнюю информацию из объектного файла
-	@$(STRIP) --strip-debug $(OBJ)
-	@$(STRIP) --strip-unneeded $(OBJ)
+	@echo "Stripping object files, keeping symbol $(LIB_NAME)..."
+	@$(STRIP) --strip-debug $(OBJ) || true; 
+	@$(STRIP) --strip-unneeded $(OBJ) || true; 
+	@$(OBJCOPY) --keep-symbol=$(LIB_NAME) --strip-all $(OBJ) "$(OBJ).stripped" || { echo "objcopy failed on $(OBJ)"; exit 1; }; 
+	@mv "$(OBJ).stripped" "$(OBJ)"; 
+	@echo "   symbols now:"; $(NM) -g --defined-only "$(OBJ)" || true; 
+
 # 3. Создаем статическую библиотеку
 	@$(AR) rcs $(STATIC_LIB) $(OBJ)
-	@$(RL) $(STATIC_LIB) 
+	@#$(RL) $(STATIC_LIB) 
 # 4. Создаем КОРРЕКТНЫЙ единый заголовочный файл
 	@echo "Generating single-file header..."
 # 4.1. Начинаем с единого include guard
@@ -144,6 +151,7 @@ dist: clean
 	
 # опционально: компилируем тест- раннер, статически линкуя библиотеку из dist
 	@$(CC) dist/test_dist.c -Ldist -l$(LIB_NAME) -o dist/test_dist_runner -no-pie
+	@dist/test_dist_runner	
 	@$(RM) dist/test_dist_runner
 	@echo "Distribution created successfully in $(DIST_DIR)/"
 	@echo "Contents:"

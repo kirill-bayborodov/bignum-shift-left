@@ -2,7 +2,7 @@
  * @file    bignum_shift_left.h
  * @author  git@bayborodov.com
  * @version 1.0.0
- * @date    03.10.2025
+ * @date    07.11.2025
  *
  * @brief   Публичный API для логического сдвига bignum_t влево.
  *
@@ -30,6 +30,7 @@
  *   - rev. 2 (02.08.2025): API улучшен по результатам аудита: добавлены
  *                         макросы версий, `restrict`, `size_t`, улучшены
  *                         Doxygen-комментарии и include guards.
+ *   - rev. 3 (07.11.2025): Removed version control functions.
  */
 
 #ifndef BIGNUM_SHIFT_LEFT_H
@@ -48,12 +49,6 @@
 extern "C" {
 #endif
 
-/**
- * @brief Макросы семантического версионирования.
- */
-#define BIGNUM_SHIFT_LEFT_VER_MAJOR  1
-#define BIGNUM_SHIFT_LEFT_VER_MINOR  0
-#define BIGNUM_SHIFT_LEFT_VER_PATCH  0
 
 /**
  * @brief Коды состояния для функции bignum_shift_left.
@@ -94,19 +89,6 @@ typedef enum {
  * @return     Код состояния `bignum_shift_status_t`.
  */
 bignum_shift_status_t bignum_shift_left(bignum_t* restrict num, size_t shift_amount);
-
-/**
- * @brief      Возвращает строковое представление версии библиотеки.
- * @return     Указатель на статическую строку с версией "MAJOR.MINOR.PATCH".
- */
-const char* bignum_shift_left_get_version_string(void);
-
-/**
- * @brief      Возвращает числовое представление версии библиотеки.
- * @details    Формат: `0xMMmmpp` (MAJOR<<16 | MINOR<<8 | PATCH).
- * @return     Числовое представление версии.
- */
-uint32_t bignum_shift_left_get_version_number(void);
 
 #ifdef __cplusplus
 }
