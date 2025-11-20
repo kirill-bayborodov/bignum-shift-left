@@ -1,7 +1,7 @@
 # bignum-shift-left
 
 [![C/ASM CI](https://github.com/kirill-bayborodov/bignum-shift-left/actions/workflows/ci.yml/badge.svg )](https://github.com/kirill-bayborodov/bignum-shift-left/actions/workflows/ci.yml )
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-shift-left )](https://github.com/kirill-bayborodov/bignum-shift-left/releases/latest )
+[![GitHub release (latest by date)](https://img.shields.io/github/bignum-shift-left/release/kirill-bayborodov/bignum-shift-left )](https://github.com/kirill-bayborodov/bignum-shift-left/releases/latest )
 
 `bignum-shift-left` is a high-performance, standalone module for performing a logical left shift on an arbitrary-precision integer (`bignum_t`).
 A highly optimized x86-64 assembly implementation of a bignum left shift operation, designed for performance-critical applications. 
