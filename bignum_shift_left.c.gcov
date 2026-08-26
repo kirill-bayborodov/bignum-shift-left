@@ -1,0 +1,70 @@
+        -:    0:Source:src/bignum_shift_left.c
+        -:    0:Graph:build/bignum_shift_left.gcno
+        -:    0:Data:build/bignum_shift_left.gcda
+        -:    0:Runs:5
+        -:    1:#include "bignum_shift_left.h"
+        -:    2:#include <string.h>
+        -:    3:
+function bignum_shift_left called 144578 returned 100% blocks executed 96%
+   144578:    4:bignum_shift_status_t bignum_shift_left(bignum_t *restrict num, size_t shift_amount)
+        -:    5:{
+   144578:    6:    bignum_t tmp = {0};
+        -:    7:    size_t word_shift, bit_shift;
+   144578:    8:    if (num == NULL) return BIGNUM_SHIFT_ERROR_NULL_ARG;
+branch  0 taken 144576 (fallthrough)
+branch  1 taken 2
+   144576:    9:    if (shift_amount == 0U) return BIGNUM_SHIFT_SUCCESS;
+branch  0 taken 24 (fallthrough)
+branch  1 taken 144552
+   144552:   10:    if (num->len == 0U) return BIGNUM_SHIFT_SUCCESS;
+branch  0 taken 2
+branch  1 taken 144550 (fallthrough)
+   144550:   11:    if (num->len > BIGNUM_CAPACITY || shift_amount >= (size_t)BIGNUM_CAPACITY * 64U)
+branch  0 taken 144550 (fallthrough)
+branch  1 taken 0
+branch  2 taken 144546 (fallthrough)
+branch  3 taken 4
+        -:   12:        return BIGNUM_SHIFT_ERROR_OVERFLOW;
+   144546:   13:    word_shift = shift_amount / 64U; bit_shift = shift_amount % 64U;
+   144546:   14:    if (num->len == BIGNUM_CAPACITY &&
+branch  0 taken 118135 (fallthrough)
+branch  1 taken 26411
+branch  2 taken 0 (fallthrough)
+branch  3 taken 118135
+  118135*:   15:        ((word_shift != 0U && num->words[BIGNUM_CAPACITY - 1U] != 0U) ||
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 taken 112799 (fallthrough)
+branch  3 taken 5336
+   112799:   16:         (bit_shift != 0U && (num->words[BIGNUM_CAPACITY - 1U] >> (64U - bit_shift)) != 0U)))
+branch  0 taken 282 (fallthrough)
+branch  1 taken 112517
+        -:   17:        return BIGNUM_SHIFT_ERROR_OVERFLOW;
+   511728:   18:    for (size_t i = 0U; i < num->len; ++i) {
+branch  0 taken 479699
+branch  1 taken 32029 (fallthrough)
+   479699:   19:        size_t dst = i + word_shift;
+   479699:   20:        uint64_t value = num->words[i];
+   479699:   21:        if (bit_shift != 0U) {
+branch  0 taken 479689 (fallthrough)
+branch  1 taken 10
+   479689:   22:            if (dst < BIGNUM_CAPACITY) tmp.words[dst] |= value << bit_shift;
+branch  0 taken 479835 (fallthrough)
+branch  1 taken -146
+   479689:   23:            if (dst + 1U < BIGNUM_CAPACITY) tmp.words[dst + 1U] |= value >> (64U - bit_shift);
+branch  0 taken 479037 (fallthrough)
+branch  1 taken 652
+       10:   24:        } else if (dst < BIGNUM_CAPACITY) tmp.words[dst] = value;
+branch  0 taken 10 (fallthrough)
+branch  1 taken 0
+        -:   25:    }
+        -:   26:    tmp.len = BIGNUM_CAPACITY;
+   509114:   27:    while (tmp.len > 0U && tmp.words[tmp.len - 1U] == 0U) --tmp.len;
+branch  0 taken 509108 (fallthrough)
+branch  1 taken 6
+branch  2 taken 477085
+branch  3 taken 32023 (fallthrough)
+        -:   28:    if (tmp.len == 0U) tmp.len = 1U;
+    32029:   29:    *num = tmp;
+    32029:   30:    return BIGNUM_SHIFT_SUCCESS;
+        -:   31:}
